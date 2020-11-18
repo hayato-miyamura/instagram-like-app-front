@@ -1,0 +1,16 @@
+[
+  {
+    "name": "inspire",
+    "path": "/inspire",
+    "component": "/Users/hayato/Desktop/Apps/instagram-like-app-front/nuxt/src/pages/inspire.vue",
+    "chunkName": "pages/inspire",
+    "_name": "_60140706"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/hayato/Desktop/Apps/instagram-like-app-front/nuxt/src/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_7214d404"
+  }
+]
