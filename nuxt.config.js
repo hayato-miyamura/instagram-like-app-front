@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
@@ -23,7 +24,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ['~/plugins/firebase.js'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -31,7 +32,7 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    // '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
@@ -40,12 +41,27 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/dotenv',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    proxy: true,
+    baseURL: process.env.API_URL,
+    credentials: true,
+  },
+
+  proxy: {
+    '/api': {
+      target: 'http://127.0.0.1:8080',
+      // pathRewrite: {
+      //   '^/api': '/'
+      // }
+    },
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
@@ -70,4 +86,14 @@ export default {
   build: {},
 
   srcDir: 'src/',
+
+  // typescript: {
+  //   typeCheck: true,
+  //   ignoreNotFoundWarnings: true
+  // },
+
+  // Middleware
+  router: {
+    middleware: ['checkauthenticated'],
+  },
 }
