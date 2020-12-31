@@ -4,7 +4,6 @@
       <div class="text-center">
         <logo />
         <vuetify-logo />
-        <mypage />
       </div>
       <v-card>
         <v-card-title class="headline">
@@ -19,31 +18,14 @@
   </v-row>
 </template>
 
-<script>
-// import { Vue, Component } from 'vue-property-decorator'
-// import Logo from '~/components/Logo.vue'
-// import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
-// @Component({
-//   components: {
-//     Logo,
-//     VuetifyLogo
-//   }
-// })
-// export default class IndexPage extends Vue {}
-
+<script lang="ts">
+import Logo from '../components/Logo.vue'
+import VuetifyLogo from '../components/VuetifyLogo.vue'
+import axios from 'axios';
 import Vue from 'vue'
-import Logo from '~/components/Logo.vue'
-import Mypage from '~/components/Mypage.vue'
 
 export default Vue.extend({
-  components: {
-    Logo,
-    Mypage,
-  },
-  async asyncData({ $axios }) {
-    const data = await $axios.$get('/api/posts')
-    return { data }
-  },
+
+  // middleware: 'checkauthenticated'
 })
 </script>

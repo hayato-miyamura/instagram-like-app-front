@@ -1,19 +1,14 @@
 <template>
   <div class="mypage">
-    <button @click="logout">ログアウト</button>
+    <p>Mypage</p>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import firebase from '../plugins/firebase'
 
-export default {
-  name: 'Mypage',
-  methods: {
-    logout() {
-      firebase.auth().signOut()
-    },
-  },
-}
+export default Vue.extend({
+  name: 'Mypage'
+})
 </script>

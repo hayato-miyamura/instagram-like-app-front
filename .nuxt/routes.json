@@ -1,17 +1,17 @@
 [
   {
-    "name": "inspire",
-    "path": "/inspire",
-    "component": "/Users/hayato/Desktop/Apps/instagram-like-app-front/nuxt/src/pages/inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_60140706"
-  },
-  {
     "name": "login",
     "path": "/login",
     "component": "/Users/hayato/Desktop/Apps/instagram-like-app-front/nuxt/src/pages/login.vue",
     "chunkName": "pages/login",
     "_name": "_dec58dd6"
+  },
+  {
+    "name": "mypage",
+    "path": "/mypage",
+    "component": "/Users/hayato/Desktop/Apps/instagram-like-app-front/nuxt/src/pages/mypage.vue",
+    "chunkName": "pages/mypage",
+    "_name": "_38acd63f"
   },
   {
     "name": "index",

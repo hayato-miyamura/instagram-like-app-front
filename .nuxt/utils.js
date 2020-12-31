@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { normalizeURL } from '@nuxt/ufo'
 
 // window.{{globals.loadedCallback}} hook
 // Useful for jsdom testing or plugins (https://github.com/tmpvar/jsdom#dealing-with-asynchronous-script-loading)
@@ -23,6 +24,24 @@ export function interopDefault (promise) {
 
 export function hasFetch(vm) {
   return vm.$options && typeof vm.$options.fetch === 'function' && !vm.$options.fetch.length
+}
+export function purifyData(data) {
+  if (process.env.NODE_ENV === 'production') {
+    return data
+  }
+
+  return Object.entries(data).filter(
+    ([key, value]) => {
+      const valid = !(value instanceof Function) && !(value instanceof Promise)
+      if (!valid) {
+        console.warn(`${key} is not able to be stringified. This will break in a production environment.`)
+      }
+      return valid
+    }
+    ).reduce((obj, [key, value]) => {
+      obj[key] = value
+      return obj
+    }, {})
 }
 export function getChildrenComponentInstancesUsingFetch(vm, instances = []) {
   const children = vm.$children || []
@@ -150,7 +169,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {}
+      env: {"API_KEY":"AIzaSyDX3ierob6vq3D2wIMIl_B0sywuAOmoOSY","AUTH_DOMAIN":"instagram-like-app-5493e.firebaseapp.com","DATABASE_URL":"https://instagram-like-app-5493e.firebaseio.com","PROJECT_ID":"instagram-like-app-5493e","STORAGE_BUCKET":"instagram-like-app-5493e.appspot.com","MESSAGING_SENDER_ID":"1009260413342","APP_ID":"1:1009260413342:web:b2b4005925be0503a6d68f","MEASUREMENT_ID":"G-YHJZF081JG"}
     }
     // Only set once
     if (!process.static && context.req) {
@@ -270,15 +289,20 @@ export function promisify (fn, context) {
 
 // Imported from vue-router
 export function getLocation (base, mode) {
-  let path = decodeURI(window.location.pathname)
   if (mode === 'hash') {
     return window.location.hash.replace(/^#\//, '')
   }
-  // To get matched with sanitized router.base add trailing slash
-  if (base && (path.endsWith('/') ? path : path + '/').startsWith(base)) {
+
+  base = decodeURI(base).slice(0, -1) // consideration is base is normalized with trailing slash
+  let path = decodeURI(window.location.pathname)
+
+  if (base && path.startsWith(base)) {
     path = path.slice(base.length)
   }
-  return (path || '/') + window.location.search + window.location.hash
+
+  const fullPath = (path || '/') + window.location.search + window.location.hash
+
+  return normalizeURL(fullPath)
 }
 
 // Imported from path-to-regexp

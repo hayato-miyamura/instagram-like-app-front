@@ -8,6 +8,8 @@ const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations']
 let store = {};
 
 (function updateModules () {
+  store = normalizeRoot(require('../src/store/index.ts'), 'store/index.ts')
+
   // If store is an exported method = classic mode (deprecated)
 
   if (typeof store === 'function') {
@@ -17,14 +19,15 @@ let store = {};
   // Enforce store modules
   store.modules = store.modules || {}
 
-  resolveStoreModules(require('../src/store/usersstate.js'), 'usersstate.js')
+  resolveStoreModules(require('../src/store/modules/usersstate.ts'), 'modules/usersstate.ts')
 
   // If the environment supports hot reloading...
 
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([
-      '../src/store/usersstate.js',
+      '../src/store/index.ts',
+      '../src/store/modules/usersstate.ts',
     ], () => {
       // Update `root.modules` with the latest definitions.
       updateModules()
@@ -69,7 +72,7 @@ function normalizeModule (moduleData, filePath) {
 function resolveStoreModules (moduleData, filename) {
   moduleData = moduleData.default || moduleData
   // Remove store src + extension (./foo/index.js -> foo/index)
-  const namespace = filename.replace(/\.(js|mjs)$/, '')
+  const namespace = filename.replace(/\.(js|mjs|ts)$/, '')
   const namespaces = namespace.split('/')
   let moduleName = namespaces[namespaces.length - 1]
   const filePath = `store/${filename}`

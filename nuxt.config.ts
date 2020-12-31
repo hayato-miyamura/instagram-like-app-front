@@ -1,5 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
-require('dotenv').config()
+
+require('dotenv').config();
+const {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+  MEASUREMENT_ID
+} = process.env;
 
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
@@ -24,7 +35,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/firebase.js'],
+  plugins: [
+    '~/plugins/auth.ts',
+    '~/plugins/firebase.ts',
+    '~/plugins/persistedState.ts',
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -32,13 +47,14 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    // '@nuxt/typescript-build',
+    '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    // 'nuxt-client-init-module',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
@@ -85,15 +101,26 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
 
+  env: {
+    API_KEY,
+    AUTH_DOMAIN,
+    DATABASE_URL,
+    PROJECT_ID,
+    STORAGE_BUCKET,
+    MESSAGING_SENDER_ID,
+    APP_ID,
+    MEASUREMENT_ID,
+  },
+
   srcDir: 'src/',
 
-  // typescript: {
-  //   typeCheck: true,
-  //   ignoreNotFoundWarnings: true
-  // },
+  typescript: {
+    typeCheck: true,
+    ignoreNotFoundWarnings: true
+  },
 
   // Middleware
   router: {
-    middleware: ['checkauthenticated'],
+    // middleware: ['checkauthenticated'],
   },
 }
