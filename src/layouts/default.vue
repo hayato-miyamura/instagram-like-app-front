@@ -71,8 +71,8 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-home-outline',
+          title: 'Home',
           to: '/',
         },
         {
@@ -84,7 +84,12 @@ export default {
           icon: 'mdi-account-check',
           title: 'Login',
           to: '/login',
-        }
+        },
+        {
+          icon: 'mdi-camera-enhance',
+          title: 'Post',
+          to: '/post',
+        },
       ],
       miniVariant: false,
       right: true,
